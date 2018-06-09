@@ -16,6 +16,6 @@ Last send bug set by
 # Docker build
 ```
 docker build -t onlyoffice_telegram_bugzilla_notifications .
-docker run -itd --restart=always --name onlyoffice_telegram_bugzilla_notifications onlyoffice_telegram_bugzilla_notifications
+docker run -itd --restart=always --name onlyoffice_telegram_bugzilla_notifications -v ./last_send_bug.info:/root/onlyoffice_telegram_bugzilla_notifications/last_send_bug.info onlyoffice_telegram_bugzilla_notifications
 
 ```
