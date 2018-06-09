@@ -6,8 +6,8 @@ By file `config.yml` with data
 ```
 telegram_bot_token: token
 channel_id: id-of-channel
-bugzilla_user: bugzilla_user
-bugzilla_pass: bugzilla_pass
+bugzilla_url: bugzilla_url
+bugzilla_key: bugzilla_key
 ```
 
 # Docker build

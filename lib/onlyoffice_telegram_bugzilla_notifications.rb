@@ -9,7 +9,7 @@ module OnlyofficeTelegramBugzillaNotificaions
       @last_send_bug_storage = 'last_send_bug.info'
       @config = YAML.load_file(config_path)
       @latest_notified_bug = latest_notified_bug
-      @bugzilla = OnlyofficeBugzillaHelper::BugzillaHelper.new(bugzilla_url: @config['bugzilla_user'], api_key: @config['bugzilla_key'])
+      @bugzilla = OnlyofficeBugzillaHelper::BugzillaHelper.new(bugzilla_url: @config['bugzilla_url'], api_key: @config['bugzilla_key'])
     end
 
     def fetch_bugs_to_send
