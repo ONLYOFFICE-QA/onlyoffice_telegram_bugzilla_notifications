@@ -1,3 +1,6 @@
+require 'telegram/bot'
+require 'yaml'
+
 config = YAML.load_file('config.yml')
 
 Telegram::Bot::Client.run(config['telegram_bot_token']) do |bot|
