@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'onlyoffice_bugzilla_helper'
 gem 'telegram-bot-ruby'
 
 group :development do
