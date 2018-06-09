@@ -40,6 +40,7 @@ module OnlyofficeTelegramBugzillaNotificaions
 
     def fetch_info_and_send
       fetch_bugs_to_send
+      exit if @bugs_to_send.empty?
       form_messages
       send_messages
     end
