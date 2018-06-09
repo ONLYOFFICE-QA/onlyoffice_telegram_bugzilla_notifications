@@ -10,6 +10,9 @@ bugzilla_url: bugzilla_url
 bugzilla_key: bugzilla_key
 ```
 
+Last send bug set by
+`echo '37910' > last_send_bug.info`
+
 # Docker build
 ```
 docker build -t onlyoffice_telegram_bugzilla_notifications .
