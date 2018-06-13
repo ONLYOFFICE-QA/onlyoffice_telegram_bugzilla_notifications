@@ -60,7 +60,8 @@ module OnlyofficeTelegramBugzillaNotificaions
       metadata = @bugzilla.bug_data(bug_id)
       "Bug #{bug_id}. #{metadata['summary']}\n"\
       "Reported by: #{metadata['creator']}\n"\
-      "#{metadata['product']} -> #{metadata['component']}"
+      "#{metadata['product']} -> #{metadata['component']}"\
+      "https://#{@config['bugzilla_url']}/show_bug.cgi?id=#{bug_id}"
     end
   end
 end
