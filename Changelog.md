@@ -5,3 +5,4 @@
 
 * Initial Release
 * Bug url in message
+* Add `docker-compose` support
