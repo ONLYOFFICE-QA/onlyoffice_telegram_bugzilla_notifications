@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'onlyoffice_bugzilla_helper'
 require 'telegram/bot'
 require 'yaml'
