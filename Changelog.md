@@ -9,3 +9,4 @@
 * Add `docker-compose` support
 * Add bug severity to message
 * Use `alpine` as base image for Docker
+* Use `bundle config` to not install dev dependencies
