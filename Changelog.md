@@ -8,3 +8,4 @@
 * Bug url in message
 * Add `docker-compose` support
 * Add bug severity to message
+* Use `alpine` as base image for Docker
