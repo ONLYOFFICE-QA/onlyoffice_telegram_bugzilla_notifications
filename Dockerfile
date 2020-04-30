@@ -1,4 +1,4 @@
-FROM ruby:2.7
+FROM ruby:2.7-alpine
 
 MAINTAINER Pavel.Lobashov "shockwavenn@gmail.com"
 
