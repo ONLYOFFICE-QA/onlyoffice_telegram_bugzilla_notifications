@@ -10,3 +10,4 @@
 * Add bug severity to message
 * Use `alpine` as base image for Docker
 * Use `bundle config` to not install dev dependencies
+* Remove protocol prefix from message, should read from config

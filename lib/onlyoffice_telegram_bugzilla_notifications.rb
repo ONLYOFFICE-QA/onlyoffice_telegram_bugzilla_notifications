@@ -64,7 +64,7 @@ module OnlyofficeTelegramBugzillaNotificaions
       "Reported by: #{metadata['creator']}\n"\
       "Severity: #{metadata['severity']}\n"\
       "#{metadata['product']} -> #{metadata['component']}\n"\
-      "https://#{@config['bugzilla_url']}/show_bug.cgi?id=#{bug_id}"
+      "#{@config['bugzilla_url']}/show_bug.cgi?id=#{bug_id}"
     end
   end
 end
