@@ -18,7 +18,7 @@ GEM
     inflecto (0.0.2)
     iniparse (1.5.0)
     multipart-post (2.1.1)
-    onlyoffice_bugzilla_helper (0.3.2)
+    onlyoffice_bugzilla_helper (0.4.0)
     overcommit (0.54.0)
       childprocess (>= 0.6.3, < 5)
       iniparse (~> 1.4)
