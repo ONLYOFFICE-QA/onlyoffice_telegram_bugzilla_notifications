@@ -4,6 +4,7 @@ require 'onlyoffice_bugzilla_helper'
 require 'telegram/bot'
 require 'yaml'
 
+# Namespace of `onlyoffice_telegram_bugzilla_notifications`
 module OnlyofficeTelegramBugzillaNotificaions
   # Class for sending notifications
   class TelegramBuzillaNotificaions
@@ -15,6 +16,8 @@ module OnlyofficeTelegramBugzillaNotificaions
       @logger = Logger.new($stdout)
     end
 
+    # Fetch list of bugs need to be send
+    # @return [nil]
     def fetch_bugs_to_send
       @bugs_to_send = []
       current_bug = latest_notified_bug + 1
@@ -25,6 +28,7 @@ module OnlyofficeTelegramBugzillaNotificaions
       @logger.info("List of not notified bugs: #{@bugs_to_send}")
     end
 
+    # Form message to send via telegram
     def form_messages
       @messages = []
       @bugs_to_send.each do |bug|
@@ -42,6 +46,7 @@ module OnlyofficeTelegramBugzillaNotificaions
       update_last_notified_bug(@bugs_to_send.last)
     end
 
+    # Fetch info about not-notified bugs and send it
     def fetch_info_and_send
       fetch_bugs_to_send
       exit if @bugs_to_send.empty?
