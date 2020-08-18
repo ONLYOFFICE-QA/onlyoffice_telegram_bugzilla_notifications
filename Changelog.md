@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+## 0.1.0 (2020-08-18)
+
 ### New Features
 
 * Initial Release
