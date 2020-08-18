@@ -12,6 +12,7 @@ module OnlyofficeTelegramBugzillaNotificaions
       @config = YAML.load_file(config_path)
       @latest_notified_bug = latest_notified_bug
       @bugzilla = OnlyofficeBugzillaHelper::BugzillaHelper.new(bugzilla_url: @config['bugzilla_url'], api_key: @config['bugzilla_key'])
+      @logger = Logger.new($stdout)
     end
 
     def fetch_bugs_to_send
@@ -21,6 +22,7 @@ module OnlyofficeTelegramBugzillaNotificaions
         @bugs_to_send << current_bug
         current_bug += 1
       end
+      @logger.info("List of not notified bugs: #{@bugs_to_send}")
     end
 
     def form_messages
@@ -55,6 +57,7 @@ module OnlyofficeTelegramBugzillaNotificaions
     end
 
     def update_last_notified_bug(bug)
+      @logger.info("Change last notified bug to: #{bug}")
       File.write(@last_send_bug_storage, bug)
     end
 
