@@ -13,3 +13,4 @@
 * Remove protocol prefix from message, should read from config
 * Show product version in bug message
 * Add log messages to STDOUT
+* Add support of GitHub Actions for code-style tasks
