@@ -14,3 +14,5 @@
 * Show product version in bug message
 * Add log messages to STDOUT
 * Add support of GitHub Actions for code-style tasks
+* Add support of `rubocop-performance`, `rubocop-rake` and `rubocop-rspec`
+  extension
