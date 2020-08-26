@@ -43,7 +43,7 @@ GEM
       rubocop (>= 0.82.0)
     rubocop-rake (0.5.1)
       rubocop
-    rubocop-rspec (1.43.1)
+    rubocop-rspec (1.43.2)
       rubocop (~> 0.87)
     ruby-progressbar (1.10.1)
     telegram-bot-ruby (0.12.0)
