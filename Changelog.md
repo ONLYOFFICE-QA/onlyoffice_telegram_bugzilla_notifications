@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+### New Features
+
+* Add log about message to send
+
 ## 0.1.0 (2020-08-18)
 
 ### New Features
