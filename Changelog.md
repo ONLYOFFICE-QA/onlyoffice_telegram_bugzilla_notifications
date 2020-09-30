@@ -10,6 +10,10 @@
 
 * Add missing `markdownlint` config
 
+### Changes
+
+* Reduce `rubocop` `Layout/LineLength` metrics
+
 ## 0.1.0 (2020-08-18)
 
 ### New Features
