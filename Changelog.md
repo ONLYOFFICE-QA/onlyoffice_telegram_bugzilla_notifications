@@ -2,6 +2,14 @@
 
 ## master (unreleased)
 
+### New Features
+
+* Add log about message to send
+
+### Fixes
+
+* Add missing `markdownlint` config
+
 ## 0.1.0 (2020-08-18)
 
 ### New Features
