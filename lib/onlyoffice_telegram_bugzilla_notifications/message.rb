@@ -5,7 +5,7 @@ module OnlyofficeTelegramBugzillaNotifications
   class Message
     # Initialize message
     # @param bugzilla [OnlyofficeBugzillaHelper] instance of bugzilla api
-    # @param bug_id [Intger] message for bug to make
+    # @param bug_id [Integer] message for bug to make
     def initialize(bugzilla, bug_id)
       metadata = bugzilla.bug_data(bug_id)
       @string = "Bug #{bug_id}. #{metadata['summary']}\n"\

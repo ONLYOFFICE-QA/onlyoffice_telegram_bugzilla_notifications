@@ -8,7 +8,7 @@ require_relative 'onlyoffice_telegram_bugzilla_notifications/message'
 # Namespace of `onlyoffice_telegram_bugzilla_notifications`
 module OnlyofficeTelegramBugzillaNotifications
   # Class for sending notifications
-  class TelegramBuzillaNotificaions
+  class TelegramBugzillaNotifications
     def initialize(config_path = 'config.yml')
       @last_send_bug_storage = 'last_send_bug.info'
       @config = YAML.load_file(config_path)

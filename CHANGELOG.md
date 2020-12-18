@@ -15,6 +15,7 @@
 
 * Reduce `rubocop` `Layout/LineLength` metrics
 * Change typo in module name `OnlyofficeTelegramBugzillaNotifications`
+* Change typo in class name `TelegramBugzillaNotificaions`
 
 ## 0.1.0 (2020-08-18)
 
