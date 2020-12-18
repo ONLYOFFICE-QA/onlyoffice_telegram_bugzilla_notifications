@@ -5,6 +5,7 @@
 ### New Features
 
 * Add log about message to send
+* Add `dependabot` config
 
 ### Fixes
 
