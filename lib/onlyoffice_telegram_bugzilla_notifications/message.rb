@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module OnlyofficeTelegramBugzillaNotificaions
+module OnlyofficeTelegramBugzillaNotifications
   # Class with info about message
   class Message
     # Initialize message
