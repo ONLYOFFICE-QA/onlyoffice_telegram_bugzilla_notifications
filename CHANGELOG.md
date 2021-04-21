@@ -5,6 +5,7 @@
 ### New Features
 
 * Add dependabot check for new docker base image version
+* Use `3.0.1-alpine` as base image
 
 ## 0.2.0 (2020-12-21)
 
