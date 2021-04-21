@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+### New Features
+
+* Add dependabot check for new docker base image version
+
 ## 0.2.0 (2020-12-21)
 
 ### New Features
