@@ -9,11 +9,11 @@ module OnlyofficeTelegramBugzillaNotifications
     def initialize(bugzilla, bug_id)
       metadata = bugzilla.bug_data(bug_id)
       @string = "Bug #{bug_id}. #{metadata['summary']}\n"\
-      "Reported by: #{metadata['creator']}\n"\
-      "Severity: #{metadata['severity']}\n"\
-      "Version: #{metadata['version']}\n"\
-      "#{metadata['product']} -> #{metadata['component']}\n"\
-      "#{bugzilla.url}/show_bug.cgi?id=#{bug_id}"
+                "Reported by: #{metadata['creator']}\n"\
+                "Severity: #{metadata['severity']}\n"\
+                "Version: #{metadata['version']}\n"\
+                "#{metadata['product']} -> #{metadata['component']}\n"\
+                "#{bugzilla.url}/show_bug.cgi?id=#{bug_id}"
     end
 
     # @return [String] default string formatter
