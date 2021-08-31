@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+## Changes
+
+* Use reporter real name in report message
+
 ## 0.3.0 (2021-04-21)
 
 ### New Features
