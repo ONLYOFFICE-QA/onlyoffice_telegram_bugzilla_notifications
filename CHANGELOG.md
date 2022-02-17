@@ -14,6 +14,7 @@
 
 * Use reporter real name in report message
 * Update base image to `ruby-3.1`
+* Check `dependabot` at 8:00 Moscow time daily
 
 ## 0.3.0 (2021-04-21)
 
