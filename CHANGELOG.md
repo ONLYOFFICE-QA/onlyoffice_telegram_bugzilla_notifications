@@ -2,7 +2,11 @@
 
 ## master (unreleased)
 
-## Changes
+### Fixes
+
+* Fix `markdownlint` failure because of old `nodejs` in CI
+
+### Changes
 
 * Use reporter real name in report message
 * Update base image to `ruby-3.1`
