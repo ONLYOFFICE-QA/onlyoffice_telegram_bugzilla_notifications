@@ -69,7 +69,7 @@ GEM
       rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
-    telegram-bot-ruby (0.18.0)
+    telegram-bot-ruby (0.19.2)
       dry-inflector
       faraday (~> 1.0)
       virtus (~> 2.0)
