@@ -37,7 +37,7 @@ GEM
     faraday-retry (1.0.3)
     ice_nine (0.11.2)
     iniparse (1.5.0)
-    multipart-post (2.2.0)
+    multipart-post (2.2.2)
     onlyoffice_bugzilla_helper (0.6.1)
     overcommit (0.59.1)
       childprocess (>= 0.6.3, < 5)
