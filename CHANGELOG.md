@@ -9,10 +9,6 @@
 * Mount `config.yml` as volume in docker-compose
 * Build docker image in CI
 
-### Changes
-
-* Default `docker-compose.yml` uses docker hub image
-
 ### Fixes
 
 * Fix `markdownlint` failure because of old `nodejs` in CI
@@ -22,6 +18,7 @@
 * Use reporter real name in report message
 * Update base image to `ruby-3.1`
 * Check `dependabot` at 8:00 Moscow time daily
+* Default `docker-compose.yml` uses docker hub image
 
 ## 0.3.0 (2021-04-21)
 
