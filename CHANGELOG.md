@@ -9,6 +9,10 @@
 * Mount `config.yml` as volume in docker-compose
 * Build docker image in CI
 
+### Changes
+
+* Default `docker-compose.yml` uses docker hub image
+
 ### Fixes
 
 * Fix `markdownlint` failure because of old `nodejs` in CI

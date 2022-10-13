@@ -26,5 +26,7 @@ docker-compose up -d
 
 ```shell script
 git pull --prune
-docker-compose up -d --no-deps --build app
+docker compose down
+docker compose pull
+docker compose up -d
 ```
