@@ -8,10 +8,12 @@
 * Add CI check that Dockerfile can be built
 * Mount `config.yml` as volume in docker-compose
 * Build docker image in CI
+* Add `hadolint` in linting CI
 
 ### Fixes
 
 * Fix `markdownlint` failure because of old `nodejs` in CI
+* Fix issues from `hadolint`
 
 ### Changes
 
