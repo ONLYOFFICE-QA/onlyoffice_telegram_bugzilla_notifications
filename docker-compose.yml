@@ -5,3 +5,4 @@ services:
     restart: always
     volumes:
       - ./last_send_bug.info:/root/onlyoffice_telegram_bugzilla_notifications/last_send_bug.info
+      - ./config.yml:/root/onlyoffice_telegram_bugzilla_notifications/config.yml
