@@ -7,4 +7,4 @@ COPY . /root/onlyoffice_telegram_bugzilla_notifications
 WORKDIR /root/onlyoffice_telegram_bugzilla_notifications
 RUN bundle config set without 'development' && \
     bundle install
-CMD ["bash", "entrypoint.sh"]
+CMD ["sh", "entrypoint.sh"]
