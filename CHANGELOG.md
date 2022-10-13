@@ -5,6 +5,7 @@
 ### New Features
 
 * Add `yamllint` check in CI
+* Add CI check that Dockerfile can be built
 
 ### Fixes
 
