@@ -6,6 +6,7 @@
 
 * Add `yamllint` check in CI
 * Add CI check that Dockerfile can be built
+* Mount `config.yml` as volume in docker-compose
 
 ### Fixes
 
