@@ -54,7 +54,7 @@ GEM
       rubocop (~> 1.33)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
-    telegram-bot-ruby (0.21.1)
+    telegram-bot-ruby (0.23.0)
       dry-inflector
       faraday (~> 2.0)
       faraday-multipart (~> 1.0)
