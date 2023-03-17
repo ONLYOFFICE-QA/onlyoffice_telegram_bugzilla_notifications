@@ -18,7 +18,7 @@
 ### Changes
 
 * Use reporter real name in report message
-* Update base image to `ruby-3.1`
+* Update base image to `ruby-3.2`
 * Check `dependabot` at 8:00 Moscow time daily
 * Default `docker-compose.yml` uses docker hub image
 
