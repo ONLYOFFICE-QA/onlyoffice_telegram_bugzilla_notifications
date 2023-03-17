@@ -1,7 +1,7 @@
 version: '3'
 services:
   app:
-    image: onlyofficeqa/telegram_bugzilla_notifications:latest
+    image: onlyoffice/telegram_bugzilla_notifications:latest
     restart: always
     volumes:
       - ./last_send_bug.info:/root/onlyoffice_telegram_bugzilla_notifications/last_send_bug.info
