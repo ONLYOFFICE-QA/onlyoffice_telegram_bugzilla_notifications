@@ -9,6 +9,7 @@
 * Mount `config.yml` as volume in docker-compose
 * Build docker image in CI
 * Add `hadolint` in linting CI
+* Add assignee field in message
 
 ### Fixes
 
