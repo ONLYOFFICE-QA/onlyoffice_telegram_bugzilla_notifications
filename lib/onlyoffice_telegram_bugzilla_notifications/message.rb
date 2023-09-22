@@ -10,6 +10,7 @@ module OnlyofficeTelegramBugzillaNotifications
       metadata = bugzilla.bug_data(bug_id)
       @string = "Bug #{bug_id}. #{metadata['summary']}\n" \
                 "Reported by: #{metadata['creator_detail']['real_name']}\n" \
+                "Assigned to: #{metadata['assigned_to_detail']['real_name']}\n" \
                 "Severity: #{metadata['severity']}\n" \
                 "Version: #{metadata['version']}\n" \
                 "#{metadata['product']} -> #{metadata['component']}\n" \
