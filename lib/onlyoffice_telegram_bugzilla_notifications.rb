@@ -53,9 +53,20 @@ module OnlyofficeTelegramBugzillaNotifications
     # Fetch info about not-notified bugs and send it
     def fetch_info_and_send
       fetch_bugs_to_send
-      exit if @bugs_to_send.empty?
+      return if @bugs_to_send.empty?
+
       form_messages
       send_messages
+    end
+
+    # Start watcher for new bugs
+    # This is endless proccess
+    # @return [nil]
+    def start_watcher
+      loop do
+        fetch_info_and_send
+        sleep(@config['check_period'])
+      end
     end
 
     private

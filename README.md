@@ -11,6 +11,7 @@ telegram_bot_token: token
 channel_id: id-of-channel
 bugzilla_url: bugzilla_url
 bugzilla_key: bugzilla_key
+check_period: 60 # Timeout between checks for new bug
 ```
 
 Last send bug set by
