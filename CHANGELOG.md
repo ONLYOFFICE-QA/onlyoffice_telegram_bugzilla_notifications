@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+### New features
+
+* Add configuration parameter `check_period` to configure timeout between checks
+
 ## 0.4.0 (2023-09-22)
 
 ### New Features
