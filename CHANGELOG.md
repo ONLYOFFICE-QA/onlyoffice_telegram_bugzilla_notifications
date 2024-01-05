@@ -5,6 +5,7 @@
 ### New features
 
 * Add configuration parameter `check_period` to configure timeout between checks
+* Use `ruby-3.3` as application base
 
 ## 0.4.0 (2023-09-22)
 
