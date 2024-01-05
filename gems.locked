@@ -99,5 +99,8 @@ DEPENDENCIES
   telegram-bot-ruby
   yard
 
+RUBY VERSION
+   ruby 3.3.0p0
+
 BUNDLED WITH
-   2.4.20
+   2.5.4
