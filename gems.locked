@@ -3,6 +3,7 @@ GEM
   specs:
     ast (2.4.2)
     base64 (0.2.0)
+    bigdecimal (3.1.5)
     childprocess (4.1.0)
     concurrent-ruby (1.2.2)
     dry-core (1.0.1)
@@ -18,7 +19,8 @@ GEM
       dry-types (>= 1.7, < 2)
       ice_nine (~> 0.11)
       zeitwerk (~> 2.6)
-    dry-types (1.7.1)
+    dry-types (1.7.2)
+      bigdecimal (~> 3.0)
       concurrent-ruby (~> 1.0)
       dry-core (~> 1.0)
       dry-inflector (~> 1.0)
