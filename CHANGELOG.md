@@ -7,6 +7,10 @@
 * Add configuration parameter `check_period` to configure timeout between checks
 * Use `ruby-3.3` as application base
 
+### Fixes
+
+* Fix missing dependencies for `bigdecimal` gem
+
 ## 0.4.0 (2023-09-22)
 
 ### New Features
