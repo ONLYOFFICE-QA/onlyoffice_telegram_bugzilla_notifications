@@ -2,10 +2,10 @@ FROM ruby:3.3.0-alpine
 
 LABEL maintainer="Pavel.Lobashov <shockwavenn@gmail.com>"
 
-RUN apk add gcc \
-            make \
-            musl-dev
-RUN gem update bundler
+RUN apk --no-cache add gcc \
+                   make \
+                   musl-dev && \
+    gem update bundler
 COPY . /root/onlyoffice_telegram_bugzilla_notifications
 WORKDIR /root/onlyoffice_telegram_bugzilla_notifications
 RUN bundle config set without 'development' && \
