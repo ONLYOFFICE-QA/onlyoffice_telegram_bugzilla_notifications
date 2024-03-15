@@ -6,6 +6,7 @@
 
 * Add configuration parameter `check_period` to configure timeout between checks
 * Use `ruby-3.3` as application base
+* Add `dependabot` check for `GitHub Actions`
 
 ### Fixes
 
