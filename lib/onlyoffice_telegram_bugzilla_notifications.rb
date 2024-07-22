@@ -4,6 +4,7 @@ require 'onlyoffice_bugzilla_helper'
 require 'telegram/bot'
 require 'yaml'
 require_relative 'onlyoffice_telegram_bugzilla_notifications/message'
+require_relative 'onlyoffice_telegram_bugzilla_notifications/filters'
 
 # Namespace of `onlyoffice_telegram_bugzilla_notifications`
 module OnlyofficeTelegramBugzillaNotifications
@@ -24,7 +25,7 @@ module OnlyofficeTelegramBugzillaNotifications
       @bugs_to_send = []
       current_bug = latest_notified_bug + 1
       while @bugzilla.bug_exists?(current_bug)
-        @bugs_to_send << current_bug
+        @bugs_to_send << current_bug if Filters.new(@bugzilla, @config, current_bug).check_all
         current_bug += 1
       end
       @logger.info("List of not notified bugs: #{@bugs_to_send}")
