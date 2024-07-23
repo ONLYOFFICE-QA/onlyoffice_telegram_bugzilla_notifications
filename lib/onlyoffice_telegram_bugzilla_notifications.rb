@@ -66,7 +66,7 @@ module OnlyofficeTelegramBugzillaNotifications
     def start_watcher
       loop do
         fetch_info_and_send
-        sleep(@config['check_period'])
+        sleep(@config.fetch('check_period', 60))
       end
     end
 
