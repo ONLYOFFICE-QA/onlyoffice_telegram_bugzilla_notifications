@@ -2,7 +2,7 @@
 
 module OnlyofficeTelegramBugzillaNotifications
   # Class to filter bugs by parameter
-  class Filters
+  class BugFilter
     # Initialize the Filters object
     # @param bugzilla [OnlyofficeBugzillaHelper] instance of bugzilla api
     # @param config [Hash] Configuration options for filtering
