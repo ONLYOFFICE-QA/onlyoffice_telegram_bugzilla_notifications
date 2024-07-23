@@ -10,5 +10,5 @@ services:
     image: onlyoffice/telegram_bugzilla_notifications:latest
     restart: always
     volumes:
-      - ./last_send_bug.info:/root/onlyoffice_telegram_bugzilla_notifications/last_send_bug.info
+      - ./last_send_bug_docspace.info:/root/onlyoffice_telegram_bugzilla_notifications/last_send_bug.info
       - ./docspace_config.yml:/root/onlyoffice_telegram_bugzilla_notifications/config.yml
