@@ -14,8 +14,8 @@ module OnlyofficeTelegramBugzillaNotifications
       @last_send_bug_storage = 'last_send_bug.info'
       @config = YAML.load_file(config_path)
       @latest_notified_bug = latest_notified_bug
-      @bugzilla = OnlyofficeBugzillaHelper::BugzillaHelper.new(bugzilla_url: @config['bugzilla_url'],
-                                                               api_key: @config['bugzilla_key'])
+      @bugzilla = OnlyofficeBugzillaHelper::BugzillaHelper.new(bugzilla_url: @config['common_config']['bugzilla_url'],
+                                                               api_key: @config['common_config']['bugzilla_key'])
       @logger = Logger.new($stdout)
     end
 
@@ -25,39 +25,43 @@ module OnlyofficeTelegramBugzillaNotifications
       @bugs_to_send = []
       current_bug = latest_notified_bug + 1
       while @bugzilla.bug_exists?(current_bug)
-        @bugs_to_send << current_bug if BugFilter.new(@bugzilla, @config, current_bug).check_all
+        @bugs_to_send << current_bug
         current_bug += 1
       end
       @logger.info("List of not notified bugs: #{@bugs_to_send}")
     end
 
     # Form message to send via telegram
-    def form_messages
+    def form_messages(bugs_to_send)
       @messages = []
-      @bugs_to_send.each do |bug|
+      bugs_to_send.each do |bug|
         @messages << Message.new(@bugzilla, bug)
       end
     end
 
     # @param messages [Array<String>] message to send
-    def send_messages(messages = @messages)
-      Telegram::Bot::Client.run(@config['telegram_bot_token']) do |bot|
+    def send_messages(chat_config, messages = @messages)
+      Telegram::Bot::Client.run(chat_config['telegram_bot_token']) do |bot|
         messages.each_with_index do |message, index|
-          @logger.info("Sending info `#{message.for_logger} to chat #{@config['channel_id']}")
-          bot.api.sendMessage(chat_id: @config['channel_id'], text: message)
+          @logger.info("Sending info `#{message.for_logger} to chat #{chat_config['channel_id']}")
+          bot.api.sendMessage(chat_id: chat_config['channel_id'], text: message)
           @logger.info("Send info about bug: #{@bugs_to_send[index]}")
         end
       end
-      update_last_notified_bug(@bugs_to_send.last)
     end
 
     # Fetch info about not-notified bugs and send it
     def fetch_info_and_send
       fetch_bugs_to_send
-      return if @bugs_to_send.empty?
+      @config.each do |chat_name, chat_config|
+        next if chat_name == 'common_config'
 
-      form_messages
-      send_messages
+        filtered_bugs = filter_out_bugs(chat_config)
+        next if filtered_bugs.empty?
+
+        form_messages(filtered_bugs)
+        send_messages(chat_config)
+      end
     end
 
     # Start watcher for new bugs
@@ -66,11 +70,19 @@ module OnlyofficeTelegramBugzillaNotifications
     def start_watcher
       loop do
         fetch_info_and_send
-        sleep(@config.fetch('check_period', 60))
+        update_last_notified_bug(@bugs_to_send.last) unless @bugs_to_send.last.nil?
+        sleep(@config.dig('common_config', 'check_period') || 60)
       end
     end
 
     private
+
+    # Filters out bugs from the bugs array if they do not pass the checks
+    # If the BugFilter#check_all method returns false, the bug ID is removed from the @bugs_to_send array.
+    # @return [Array<Integer>] the filtered array of bug IDs.
+    def filter_out_bugs(chat_config, bugs = @bugs_to_send)
+      bugs.delete_if { |bug_id| !BugFilter.new(@bugzilla, chat_config, bug_id).check_all }
+    end
 
     # @return [Integer] id of latest bug that was notified
     def latest_notified_bug
