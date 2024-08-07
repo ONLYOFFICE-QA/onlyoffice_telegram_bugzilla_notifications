@@ -32,6 +32,8 @@ module OnlyofficeTelegramBugzillaNotifications
     end
 
     # Form message to send via telegram
+    # @param bugs_to_send [Array<Integer>] The array of bug IDs for which messages will be formed.
+    # @return [void] This method does not return a value.
     def form_messages(bugs_to_send)
       @messages = []
       bugs_to_send.each do |bug|
@@ -39,7 +41,10 @@ module OnlyofficeTelegramBugzillaNotifications
       end
     end
 
-    # @param messages [Array<String>] message to send
+    # Sends messages via Telegram.
+    # @param chat_config [Hash] The configuration hash for the chat, containing the bot token and channel ID.
+    # @param messages [Array<String>] The array of messages to send. Defaults to @messages.
+    # @return [void] This method does not return a value.
     def send_messages(chat_config, messages = @messages)
       Telegram::Bot::Client.run(chat_config['telegram_bot_token']) do |bot|
         messages.each_with_index do |message, index|
@@ -79,7 +84,9 @@ module OnlyofficeTelegramBugzillaNotifications
 
     # Filters out bugs from the bugs array if they do not pass the checks
     # If the BugFilter#check_all method returns false, the bug ID is removed from the @bugs_to_send array.
-    # @return [Array<Integer>] the filtered array of bug IDs.
+    # @param chat_config [Hash] The configuration object for the chat.
+    # @param bugs [Array<Integer>] The array of bug IDs to filter. Defaults to @bugs_to_send.
+    # @return [Array<Integer>] The filtered array of bug IDs.
     def filter_out_bugs(chat_config, bugs = @bugs_to_send)
       bugs.delete_if { |bug_id| !BugFilter.new(@bugzilla, chat_config, bug_id).check_all }
     end
