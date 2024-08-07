@@ -88,7 +88,7 @@ module OnlyofficeTelegramBugzillaNotifications
     # @param bugs [Array<Integer>] The array of bug IDs to filter. Defaults to @bugs_to_send.
     # @return [Array<Integer>] The filtered array of bug IDs.
     def filter_out_bugs(chat_config, bugs = @bugs_to_send)
-      bugs.delete_if { |bug_id| !BugFilter.new(@bugzilla, chat_config, bug_id).check_all }
+      bugs.select { |bug_id| BugFilter.new(@bugzilla, chat_config, bug_id).check_all }
     end
 
     # @return [Integer] id of latest bug that was notified
