@@ -4,43 +4,45 @@ Git bot for sending notification about bugzilla new bugs
 
 ## Config
 
-By file `config.yml` with data
+The `config.yml` file must have the following structure:
 
 ```yaml
-telegram_bot_token: token
-channel_id: id-of-channel
-bugzilla_url: bugzilla_url
-bugzilla_key: bugzilla_key
-check_period: 60 # Timeout between checks for new bug
-products: ['product_name']
+chat1:
+  telegram_bot_token: token
+  channel_id: id-of-channel
+  products: ['product_name']
+  
+chat2:
+  telegram_bot_token: token
+  channel_id: id-of-channel
+
+common_config:
+  bugzilla_url: bugzilla_url
+  bugzilla_key: bugzilla_key
+  check_period: 60 # Timeout between checks for new bug
 ```
+
+## Parameter Descriptions
+
+### Chats
+
+Each chat should be defined with a unique name (chat1, chat2, etc.)
+and contain the following parameters:
+
+- `telegram_bot_token` (string, required): Token for accessing the Telegram bot.
+- `channel_id` (string, required): ID of the channel where messages will be sent.
+- `products` (array, optional): List of products associated with this chat.
+Used for filtering bugs.
+
+### Common Parameters
+
+- `bugzilla_url` (string, required): - The URL of your Bugzilla server.
+- `bugzilla_key` (string, required): - The API key for accessing Bugzilla.
+- `check_period` (integer, optional): - Timeout between checks for new bug.
+By Default 60 seconds.
 
 Last send bug set by
 `echo '37910' > last_send_bug.info`
-
-`telegram_bot_token` - telegram_bot_token: Your Telegram bot token,
-which you can obtain by creating a bot through BotFather on Telegram.(Required)
-
-`channel_id` - The ID of the Telegram channel where the bot will
-send notifications about new bugs.(Required)
-
-`bugzilla_url` - The URL of your Bugzilla server.(Required)
-
-`bugzilla_key` - The API key for accessing Bugzilla.(Required)
-
-`check_period` - Timeout between checks for new bug.
-By Default 60 seconds.(Optional)
-
-`products` - Array with product names for sending
-messages with selection by product name.(Optional)
-
-## DocSpace App Config
-
-For the docspace application, create the `docspace_config.yml`
-file with the 'DocSpace' product selection
-
-Last send bug set by
-`echo '37910' > last_send_bug_docspace.info`
 
 ## Docker compose
 
