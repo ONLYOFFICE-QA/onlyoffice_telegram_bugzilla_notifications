@@ -1,0 +1,25 @@
+name: Unit_test
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.allow-failures }}
+    strategy:
+      matrix:
+        ruby: ['3.3']
+        allow-failures: [false]
+        include:
+          - ruby: head
+            allow-failures: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+      - name: Run tests
+        run: rspec ./tests/unit/*
