@@ -4,14 +4,11 @@ module OnlyofficeTelegramBugzillaNotifications
   # Class to filter bugs by parameter
   class BugFilter
     # Initialize the Filters object
-    # @param bugzilla [OnlyofficeBugzillaHelper] instance of bugzilla api
     # @param config [Hash] Configuration options for filtering
-    # @param bug_id [Integer] ID of the bug to be filter
-    def initialize(bugzilla, config, bug_id)
-      @bugzilla = bugzilla
+    # @param bug_data [Hash] The data of the bug to be filtered
+    def initialize(config, bug_data)
       @config = config
-      @bug_id = bug_id
-      @bug_info = @bugzilla.bug_data(@bug_id)
+      @bug_data = bug_data
     end
 
     # Check all filters
@@ -24,7 +21,7 @@ module OnlyofficeTelegramBugzillaNotifications
     # @return [Boolean] True if the bug's product matches the configured products,
     #   or if the product filter is not set, or if the bug's product is not set
     def by_product
-      @config['products']&.include?(@bug_info['product']) || @config['products'].nil? || @bug_info['product'].nil?
+      @config['products']&.include?(@bug_data['product']) || @config['products'].nil? || @bug_data['product'].nil?
     end
   end
 end
