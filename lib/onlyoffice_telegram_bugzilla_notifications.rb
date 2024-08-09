@@ -13,7 +13,6 @@ module OnlyofficeTelegramBugzillaNotifications
     def initialize(config_path = 'config.yml')
       @last_send_bug_storage = 'last_send_bug.info'
       @config = YAML.load_file(config_path)
-      @latest_notified_bug = latest_notified_bug
       @bugzilla = OnlyofficeBugzillaHelper::BugzillaHelper.new(bugzilla_url: @config['common_config']['bugzilla_url'],
                                                                api_key: @config['common_config']['bugzilla_key'])
       @logger = Logger.new($stdout)
@@ -31,13 +30,16 @@ module OnlyofficeTelegramBugzillaNotifications
       @logger.info("List of not notified bugs: #{@bugs_to_send}")
     end
 
-    # Form message to send via telegram
-    # @param bugs_to_send [Array<Integer>] The array of bug IDs for which messages will be formed.
-    # @return [void] This method does not return a value.
-    def form_messages(bugs_to_send)
+    # Forms messages to be sent via Telegram based on the bug data and chat configuration.
+    # Iterates through the list of bug data, applies the filters specified in the chat configuration,
+    # and creates a message for each bug that passes the filters.
+    # The resulting messages are stored in the instance variable `@messages`.
+    # @param chat_config [Hash] The configuration hash for the chat,
+    #   containing the filter criteria and other settings for the messages.
+    def form_messages(chat_config)
       @messages = []
-      bugs_to_send.each do |bug|
-        @messages << Message.new(@bugzilla, bug)
+      @bugs_data_list.each do |bug_data|
+        @messages << Message.new(bug_data, @bugzilla.url) if BugFilter.new(chat_config, bug_data).check_all
       end
     end
 
@@ -55,18 +57,24 @@ module OnlyofficeTelegramBugzillaNotifications
       end
     end
 
+    # Fetches data for each bug in the list of bugs to send.
+    # The data for each bug is retrieved using the Bugzilla API.
+    # The resulting data is stored in the instance variable `@bugs_data_list`.
+    def fetch_bugs_data
+      @bugs_data_list = @bugs_to_send.map { |bug_id| @bugzilla.bug_data(bug_id) }
+    end
+
     # Fetch info about not-notified bugs and send it
     def fetch_info_and_send
       fetch_bugs_to_send
-      @config.each do |chat_name, chat_config|
-        next if chat_name == 'common_config'
+      return if @bugs_to_send.empty?
 
-        filtered_bugs = filter_out_bugs(chat_config)
-        next if filtered_bugs.empty?
-
-        form_messages(filtered_bugs)
+      fetch_bugs_data
+      chat_configs.each_value do |chat_config|
+        form_messages(chat_config)
         send_messages(chat_config)
       end
+      update_last_notified_bug(@bugs_to_send.last)
     end
 
     # Start watcher for new bugs
@@ -75,20 +83,16 @@ module OnlyofficeTelegramBugzillaNotifications
     def start_watcher
       loop do
         fetch_info_and_send
-        update_last_notified_bug(@bugs_to_send.last) unless @bugs_to_send.last.nil?
         sleep(@config.dig('common_config', 'check_period') || 60)
       end
     end
 
     private
 
-    # Filters out bugs from the bugs array if they do not pass the checks
-    # If the BugFilter#check_all method returns false, the bug ID is removed from the @bugs_to_send array.
-    # @param chat_config [Hash] The configuration object for the chat.
-    # @param bugs [Array<Integer>] The array of bug IDs to filter. Defaults to @bugs_to_send.
-    # @return [Array<Integer>] The filtered array of bug IDs.
-    def filter_out_bugs(chat_config, bugs = @bugs_to_send)
-      bugs.select { |bug_id| BugFilter.new(@bugzilla, chat_config, bug_id).check_all }
+    # Retrieves chat configurations, excluding the common configuration.
+    # @return [Hash] A hash of chat configurations.
+    def chat_configs
+      @config.except('common_config')
     end
 
     # @return [Integer] id of latest bug that was notified

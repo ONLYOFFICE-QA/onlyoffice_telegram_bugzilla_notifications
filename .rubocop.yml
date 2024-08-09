@@ -11,7 +11,7 @@ AllCops:
 
 Metrics/BlockLength:
   Exclude:
-    - 'tests/unit/bug_filter_spec.rb'
+    - 'tests/unit/bug_filter_by_product_spec.rb'
 
 RSpec/VerifiedDoubles:
   Enabled: false
