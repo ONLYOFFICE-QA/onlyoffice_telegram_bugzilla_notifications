@@ -9,6 +9,13 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 3.3
 
+Metrics/BlockLength:
+  Exclude:
+    - 'tests/unit/bug_filter_by_product_spec.rb'
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
 # We use `gems.rb` in this project
 Bundler/GemFilename:
   EnforcedStyle: gems.rb

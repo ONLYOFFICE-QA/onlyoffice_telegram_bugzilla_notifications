@@ -4,17 +4,16 @@ module OnlyofficeTelegramBugzillaNotifications
   # Class with info about message
   class Message
     # Initialize message
-    # @param bugzilla [OnlyofficeBugzillaHelper] instance of bugzilla api
-    # @param bug_id [Integer] message for bug to make
-    def initialize(bugzilla, bug_id)
-      metadata = bugzilla.bug_data(bug_id)
-      @string = "Bug #{bug_id}. #{metadata['summary']}\n" \
-                "Reported by: #{metadata['creator_detail']['real_name']}\n" \
-                "Assigned to: #{metadata['assigned_to_detail']['real_name']}\n" \
-                "Severity: #{metadata['severity']}\n" \
-                "Version: #{metadata['version']}\n" \
-                "#{metadata['product']} -> #{metadata['component']}\n" \
-                "#{bugzilla.url}/show_bug.cgi?id=#{bug_id}"
+    # @param bug_data [Hash] The data of the bug.
+    # @param bugzilla_url [String] The base URL of the Bugzilla instance, used to create a link to the bug.
+    def initialize(bug_data, bugzilla_url)
+      @string = "Bug #{bug_data['id']}. #{bug_data['summary']}\n" \
+                "Reported by: #{bug_data['creator_detail']['real_name']}\n" \
+                "Assigned to: #{bug_data['assigned_to_detail']['real_name']}\n" \
+                "Severity: #{bug_data['severity']}\n" \
+                "Version: #{bug_data['version']}\n" \
+                "#{bug_data['product']} -> #{bug_data['component']}\n" \
+                "#{bugzilla_url}/show_bug.cgi?id=#{bug_data['id']}"
     end
 
     # @return [String] default string formatter
