@@ -30,7 +30,8 @@ Each chat should be defined with a unique name (chat1, chat2, etc.)
 and contain the following parameters:
 
 - `telegram_bot_token` (string, required): The token for accessing the Telegram bot.
-To send a message to a chat, the bot must be present in the chat and have administrator rights.
+To send a message to a chat, the bot must be present in the chat
+and have administrator rights.
 - `channel_id` (string, required): ID of the channel where messages will be sent.
 - `products` (array, optional): List of products associated with this chat.
 Used for filtering bugs.
