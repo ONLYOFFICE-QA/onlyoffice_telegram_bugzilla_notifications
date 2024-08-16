@@ -9,6 +9,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.3
+          bundler-cache: true
       - name: Install gem dependencies
         run: |
           gem install bundler
@@ -17,3 +18,5 @@ jobs:
         run: rubocop
       - name: Check that code 100% documented
         run: yardoc . | grep -q '100.00% documented'
+      - name: Run tests
+        run: rspec ./tests/unit/*
