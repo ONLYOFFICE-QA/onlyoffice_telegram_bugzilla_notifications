@@ -39,7 +39,7 @@ module OnlyofficeTelegramBugzillaNotifications
     def form_messages(chat_config)
       @messages = []
       @bugs_data_list.each do |bug_data|
-        @messages << Message.new(bug_data, @bugzilla.url) if BugFilter.new(chat_config, bug_data).check_all
+        @messages << Message.new(bug_data, @bugzilla.url) if BugFilter.new(chat_config, bug_data).filtered_all?
       end
     end
 

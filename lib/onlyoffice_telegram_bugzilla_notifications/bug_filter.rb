@@ -13,7 +13,7 @@ module OnlyofficeTelegramBugzillaNotifications
 
     # Check all filters
     # @return [Boolean] Result of applying all filters
-    def check_all
+    def filtered_all?
       by_product
     end
 
