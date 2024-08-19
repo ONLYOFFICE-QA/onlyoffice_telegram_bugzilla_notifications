@@ -2,11 +2,17 @@
 
 ## master (unreleased)
 
-### New features
+## 1.0.0 (2024-08-16)
 
-* Add configuration parameter `check_period` to configure timeout between checks
+### New Features
+
+* Add module for filtering bugs by parameter
+* Add the ability to send messages to multiple chats
+* Add configuration parameter `check_period`
+to configure timeout between checks
 * Use `ruby-3.3` as application base
 * Add `dependabot` check for `GitHub Actions`
+* Add unit tests
 
 ### Fixes
 

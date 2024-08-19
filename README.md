@@ -4,15 +4,44 @@ Git bot for sending notification about bugzilla new bugs
 
 ## Config
 
-By file `config.yml` with data
+The `config.yml` file must have the following structure:
 
 ```yaml
-telegram_bot_token: token
-channel_id: id-of-channel
-bugzilla_url: bugzilla_url
-bugzilla_key: bugzilla_key
-check_period: 60 # Timeout between checks for new bug
+chat1:
+  telegram_bot_token: token
+  channel_id: id-of-channel
+  products: ['product_name']
+  
+chat2:
+  telegram_bot_token: token
+  channel_id: id-of-channel
+
+common_config:
+  bugzilla_url: bugzilla_url
+  bugzilla_key: bugzilla_key
+  check_period: 60 # Timeout between checks for new bug
 ```
+
+## Parameter Descriptions
+
+### Chats
+
+Each chat should be defined with a unique name (chat1, chat2, etc.)
+and contain the following parameters:
+
+- `telegram_bot_token` (string, required): The token for accessing the Telegram bot.
+To send a message to a chat, the bot must be present in the chat
+and have administrator rights.
+- `channel_id` (string, required): ID of the channel where messages will be sent.
+- `products` (array, optional): List of products associated with this chat.
+Used for filtering bugs.
+
+### Common Parameters
+
+- `bugzilla_url` (string, required): - The URL of your Bugzilla server.
+- `bugzilla_key` (string, required): - The API key for accessing Bugzilla.
+- `check_period` (integer, optional): - Timeout between checks for new bug.
+By Default 60 seconds.
 
 Last send bug set by
 `echo '37910' > last_send_bug.info`
