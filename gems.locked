@@ -27,12 +27,12 @@ GEM
       dry-inflector (~> 1.0)
       dry-logic (~> 1.4)
       zeitwerk (~> 2.6)
-    faraday (2.10.1)
-      faraday-net_http (>= 2.0, < 3.2)
+    faraday (2.11.0)
+      faraday-net_http (>= 2.0, < 3.4)
       logger
     faraday-multipart (1.0.4)
       multipart-post (~> 2)
-    faraday-net_http (3.1.1)
+    faraday-net_http (3.3.0)
       net-http
     ice_nine (0.11.2)
     iniparse (1.5.0)
@@ -94,7 +94,7 @@ GEM
       faraday-multipart (~> 1.0)
       zeitwerk (~> 2.6)
     unicode-display_width (2.6.0)
-    uri (0.13.0)
+    uri (0.13.1)
     yard (0.9.37)
     zeitwerk (2.6.17)
 
