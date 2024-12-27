@@ -10,7 +10,7 @@
 * Add the ability to send messages to multiple chats
 * Add configuration parameter `check_period`
 to configure timeout between checks
-* Use `ruby-3.3` as application base
+* Use `ruby-3.4` as application base
 * Add `dependabot` check for `GitHub Actions`
 * Add unit tests
 
