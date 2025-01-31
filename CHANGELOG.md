@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+### Fixes
+
+* Workaround a bug for failing build on arm64
+
 ## 1.0.0 (2024-08-16)
 
 ### New Features
