@@ -91,7 +91,7 @@ GEM
     rubocop-rspec (3.4.0)
       rubocop (~> 1.61)
     ruby-progressbar (1.13.0)
-    telegram-bot-ruby (2.2.0)
+    telegram-bot-ruby (2.4.0)
       dry-struct (~> 1.6)
       faraday (~> 2.0)
       faraday-multipart (~> 1.0)
