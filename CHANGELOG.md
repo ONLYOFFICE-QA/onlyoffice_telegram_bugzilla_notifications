@@ -5,6 +5,7 @@
 ### Fixes
 
 * Workaround a bug for failing build on arm64
+* Run `rubocop` in CI through `bundle exec`
 
 ## 1.0.0 (2024-08-16)
 
