@@ -40,8 +40,8 @@ module OnlyofficeTelegramBugzillaNotifications
     def fetch_additional_bugs_to_send(additional_bugs_config, chat_name)
       return [] unless additional_bugs_config
 
-      @additional_bugs_to_send = @additional_bugs.fetch_bugs_by_additional_bugs(additional_bugs_config,
-                                                                                load_start_check_time(chat_name))
+      @additional_bugs_to_send = @additional_bugs.fetch_additional_bugs(additional_bugs_config,
+                                                                        load_start_check_time(chat_name))
       @logger.info("List of additional bugs: #{@additional_bugs_to_send}")
       @additional_bugs_to_send
     end

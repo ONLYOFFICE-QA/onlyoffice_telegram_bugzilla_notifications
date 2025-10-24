@@ -13,7 +13,7 @@ module OnlyofficeTelegramBugzillaNotifications
     # @param filters [Hash] The filters to apply to the bugs
     # @param start_check_time [String] The time to start checking for bugs
     # @return [Array<Integer>] The list of bug IDs
-    def fetch_bugs_by_additional_bugs(filters, start_check_time)
+    def fetch_additional_bugs(filters, start_check_time)
       bugs_to_send = []
       filters.each do |filter_config|
         bugs_to_send.concat(process_filter_config(filter_config, start_check_time))
