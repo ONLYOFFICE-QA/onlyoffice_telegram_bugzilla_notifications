@@ -4,7 +4,7 @@ module OnlyofficeTelegramBugzillaNotifications
   # Class to filter bugs by parameter
   class AdditionalBugs
     # Initialize the BugGetter object
-    # @param bugzilla_url [String] The URL of the Bugzilla instance
+    # @param bugzilla BugzillaHelper instance
     def initialize(bugzilla)
       @bugzilla = bugzilla
     end
@@ -21,6 +21,8 @@ module OnlyofficeTelegramBugzillaNotifications
       bugs_to_send
     end
 
+    # Get the latest check time from the bugs
+    # @return [String] The latest check time
     def last_check_time_from_bugs
       @bugs.map { |bug| bug['last_change_time'] }.max
     end
