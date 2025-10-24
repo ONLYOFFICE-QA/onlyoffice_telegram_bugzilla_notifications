@@ -13,7 +13,7 @@ module OnlyofficeTelegramBugzillaNotifications
   class TelegramBugzillaNotifications
     def initialize(config_path = 'config.yml')
       @last_send_bug_storage = 'last_send_bug.info'
-      @start_check_time_storage = 'start_check_time.info'
+      @start_check_time_storage = 'start_check_times.yml'
       @config = YAML.load_file(config_path)
       @bugzilla = OnlyofficeBugzillaHelper::BugzillaHelper.new(bugzilla_url: @config['common_config']['bugzilla_url'],
                                                                api_key: @config['common_config']['bugzilla_key'])
@@ -43,11 +43,14 @@ module OnlyofficeTelegramBugzillaNotifications
       @logger.info("List of new bugs: #{@new_bugs_to_send}")
     end
 
-    def fetch_additional_bugs_to_send(chat_config)
-      config = chat_config['additional_bugs']
-      return [] unless config
+    # Fetch additional bugs to send
+    # @param additional_bugs_config [Hash] The configuration hash for the additional bugs
+    # @param chat_name [String] name of the chat configuration
+    # @return [Array<Integer>] The list of bug IDs
+    def fetch_additional_bugs_to_send(additional_bugs_config, chat_name)
+      return [] unless additional_bugs_config
 
-      @additional_bugs_to_send = @additional_bugs.fetch_bugs_by_additional_bugs(config, load_start_check_time)
+      @additional_bugs_to_send = @additional_bugs.fetch_bugs_by_additional_bugs(additional_bugs_config, load_start_check_time(chat_name))
       @logger.info("List of additional bugs: #{@additional_bugs_to_send}")
       @additional_bugs_to_send
     end
@@ -91,8 +94,8 @@ module OnlyofficeTelegramBugzillaNotifications
     def fetch_info_and_send
       fetch_new_bugs_to_send
 
-      chat_configs.each_value do |chat_config|
-        additional_bugs = fetch_additional_bugs_to_send(chat_config)
+      chat_configs.each do |chat_name, chat_config|
+        additional_bugs = fetch_additional_bugs_to_send(chat_config['additional_bugs'], chat_name)
         chat_bugs_to_send = (@new_bugs_to_send + additional_bugs).uniq
 
         next if chat_bugs_to_send.empty?
@@ -102,7 +105,7 @@ module OnlyofficeTelegramBugzillaNotifications
         form_messages_for_chat(chat_config, fetch_bugs_data(chat_bugs_to_send))
         send_messages(chat_config)
 
-        update_start_check_time(@additional_bugs.get_last_check_time_from_bugs) unless additional_bugs.empty?
+        update_start_check_time(chat_name, @additional_bugs.get_last_check_time_from_bugs) unless additional_bugs.empty?
       end
       update_last_notified_bug(@new_bugs_to_send.last) unless @new_bugs_to_send.empty?
     end
@@ -135,17 +138,29 @@ module OnlyofficeTelegramBugzillaNotifications
       File.write(@last_send_bug_storage, bug)
     end
 
-    def load_start_check_time
+    # Load start check time for specific chat and filter
+    # @param chat_name [String] name of the chat configuration
+    # @return [String] ISO8601 timestamp
+    def load_start_check_time(chat_name)
       return Time.now.utc.iso8601 unless File.exist?(@start_check_time_storage)
 
-      File.read(@start_check_time_storage).strip
+      times = YAML.load_file(@start_check_time_storage) || {}
+      times[chat_name] || Time.now.utc.iso8601
     rescue StandardError => e
-      @logger.error("Error loading start check time: #{e.message}")
+      @logger.error("Error loading start check time for #{chat_name}: #{e.message}")
     end
 
-    def update_start_check_time(time)
-      @logger.info("Change start check time to: #{time}")
-      File.write(@start_check_time_storage, time)
+    # Update start check time for specific chat and filter
+    # @param chat_name [String] name of the chat configuration
+    # @param time [String] ISO8601 timestamp
+    def update_start_check_time(chat_name, time)
+      @logger.info("Change start check time for #{chat_name} to: #{time}")
+
+      times = File.exist?(@start_check_time_storage) ? (YAML.load_file(@start_check_time_storage) || {}) : {}
+      times[chat_name] = time
+      File.write(@start_check_time_storage, times.to_yaml)
+    rescue StandardError => e
+      @logger.error("Error updating start check time for #{chat_name}: #{e.message}")
     end
   end
 end
