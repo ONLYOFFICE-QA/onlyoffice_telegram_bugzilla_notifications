@@ -15,28 +15,13 @@ module OnlyofficeTelegramBugzillaNotifications
     # @return [Array<Integer>] The list of bug IDs
     def fetch_bugs_by_additional_bugs(filters, start_check_time)
       bugs_to_send = []
-
       filters.each do |filter_config|
-        next unless filter_config.is_a?(Hash) && filter_config['filters']
-
-        filters = filter_config['filters']
-        filters['last_change_time'] = start_check_time
-
-        filters_hash = convert_filters_to_hash(filter_config['filters'])
-
-        @bugs = @bugzilla.get_bugs_by_filter(filters_hash)
-        @bugs.map { |bug| bug['id'] }.uniq.each do |bug_id|
-          bug_history = @bugzilla.get_bug_history(bug_id)
-
-          next unless bug_matches_history_filters?(bug_history, filter_config['filters'], start_check_time)
-
-          bugs_to_send << bug_id
-        end
+        bugs_to_send.concat(process_filter_config(filter_config, start_check_time))
       end
       bugs_to_send
     end
 
-    def get_last_check_time_from_bugs
+    def last_check_time_from_bugs
       @bugs.map { |bug| bug['last_change_time'] }.max
     end
 
@@ -55,6 +40,24 @@ module OnlyofficeTelegramBugzillaNotifications
 
     private
 
+    # Process single filter configuration
+    # @param filter_config [Hash] The filter configuration to process
+    # @param start_check_time [String] The time to start checking for bugs
+    # @return [Array<Integer>] The list of bug IDs matching the filter
+    def process_filter_config(filter_config, start_check_time)
+      return [] unless filter_config.is_a?(Hash) && filter_config['filters']
+
+      filters = filter_config['filters']
+      filters['last_change_time'] = start_check_time
+      filters_hash = convert_filters_to_hash(filters)
+      @bugs = @bugzilla.get_bugs_by_filter(filters_hash)
+
+      @bugs.map { |bug| bug['id'] }.uniq.select do |bug_id|
+        bug_history = @bugzilla.get_bug_history(bug_id)
+        bug_matches_history_filters?(bug_history, filters, start_check_time)
+      end
+    end
+
     # Check if bug history matches the provided filters
     # @param bug_history [Array<Hash>] The bug history to check
     # @param filters [Hash] The filters to apply
@@ -62,7 +65,7 @@ module OnlyofficeTelegramBugzillaNotifications
     # @return [Boolean] True if bug matches filters
     def bug_matches_history_filters?(bug_history, filters, start_check_time)
       # Get filters that should be checked in history (excluding technical fields)
-      history_filters = filters.reject { |key, _| %w[last_change_time].include?(key) }
+      history_filters = filters.except('last_change_time')
 
       bug_history.any? do |history|
         next unless history['when'] > start_check_time

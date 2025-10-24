@@ -84,20 +84,7 @@ module OnlyofficeTelegramBugzillaNotifications
     # Fetch info about not-notified bugs and send it
     def fetch_info_and_send
       fetch_new_bugs_to_send
-
-      chat_configs.each do |chat_name, chat_config|
-        additional_bugs = fetch_additional_bugs_to_send(chat_config['additional_bugs'], chat_name)
-        chat_bugs_to_send = (@new_bugs_to_send + additional_bugs).uniq
-
-        next if chat_bugs_to_send.empty?
-
-        @logger.info("Processing #{chat_bugs_to_send.size} bugs for chat #{chat_config['channel_id']}")
-
-        form_messages_for_chat(chat_config, fetch_bugs_data(chat_bugs_to_send))
-        send_messages(chat_config)
-
-        update_start_check_time(chat_name, @additional_bugs.get_last_check_time_from_bugs) unless additional_bugs.empty?
-      end
+      chat_configs.each { |chat_name, chat_config| process_chat(chat_name, chat_config) }
       update_last_notified_bug(@new_bugs_to_send.last) unless @new_bugs_to_send.empty?
     end
 
@@ -112,6 +99,20 @@ module OnlyofficeTelegramBugzillaNotifications
     end
 
     private
+
+    # Process bugs for a single chat
+    # @param chat_name [String] name of the chat configuration
+    # @param chat_config [Hash] configuration for the chat
+    def process_chat(chat_name, chat_config)
+      additional_bugs = fetch_additional_bugs_to_send(chat_config['additional_bugs'], chat_name)
+      chat_bugs_to_send = (@new_bugs_to_send + additional_bugs).uniq
+      return if chat_bugs_to_send.empty?
+
+      @logger.info("Processing #{chat_bugs_to_send.size} bugs for chat #{chat_config['channel_id']}")
+      form_messages_for_chat(chat_config, fetch_bugs_data(chat_bugs_to_send))
+      send_messages(chat_config)
+      update_start_check_time(chat_name, @additional_bugs.last_check_time_from_bugs) unless additional_bugs.empty?
+    end
 
     # Retrieves chat configurations, excluding the common configuration.
     # @return [Hash] A hash of chat configurations.
