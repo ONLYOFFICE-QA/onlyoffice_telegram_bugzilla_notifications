@@ -28,11 +28,7 @@ module OnlyofficeTelegramBugzillaNotifications
         @bugs.map { |bug| bug['id'] }.uniq.each do |bug_id|
           bug_history = @bugzilla.get_bug_history(bug_id)
 
-          next unless bug_history.any? do |history|
-            history['changes'].any? do |change|
-              (history['when'] > start_check_time) && (change['field_name'] == 'status') && (change['added'] == 'REOPENED')
-            end
-          end
+          next unless bug_matches_history_filters?(bug_history, filter_config['filters'], start_check_time)
 
           bugs_to_send << bug_id
         end
@@ -58,6 +54,34 @@ module OnlyofficeTelegramBugzillaNotifications
     end
 
     private
+
+    # Check if bug history matches the provided filters
+    # @param bug_history [Array<Hash>] The bug history to check
+    # @param filters [Hash] The filters to apply
+    # @param start_check_time [String] The time to start checking for bugs
+    # @return [Boolean] True if bug matches filters
+    def bug_matches_history_filters?(bug_history, filters, start_check_time)
+      # Get filters that should be checked in history (excluding technical fields)
+      history_filters = filters.reject { |key, _| %w[last_change_time].include?(key) }
+
+      bug_history.any? do |history|
+        next unless history['when'] > start_check_time
+
+        history['changes'].any? do |change|
+          match_change_with_filters?(change, history_filters)
+        end
+      end
+    end
+
+    # Check if a single change matches any of the filters
+    # @param change [Hash] The change to check
+    # @param filters [Hash] The filters to apply
+    # @return [Boolean] True if change matches filters
+    def match_change_with_filters?(change, filters)
+      filters.any? do |field, value|
+        change['field_name'] == field && change['added'] == value
+      end
+    end
 
     # Convert filters from YAML format (string keys) to hash rocket format (symbol keys with =>)
     # @param filters [Hash] filters hash with string keys
