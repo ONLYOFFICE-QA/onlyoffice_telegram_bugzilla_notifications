@@ -21,16 +21,6 @@ module OnlyofficeTelegramBugzillaNotifications
       @additional_bugs = AdditionalBugs.new(@bugzilla)
     end
 
-    # TODO Test additional bugs
-    def test_additional_bugs
-      chat_configs.each_value do |chat_config|
-        if chat_config['additional_bugs']
-          bugs = @additional_bugs.fetch_bugs_by_additional_bugs(chat_config['additional_bugs'], (Time.now.utc - 86400 * 10).iso8601)
-          p @additional_bugs.get_last_check_time_from_bugs
-        end
-      end
-    end
-
     # Fetch list of bugs need to be send
     # @return [nil]
     def fetch_new_bugs_to_send
@@ -50,7 +40,8 @@ module OnlyofficeTelegramBugzillaNotifications
     def fetch_additional_bugs_to_send(additional_bugs_config, chat_name)
       return [] unless additional_bugs_config
 
-      @additional_bugs_to_send = @additional_bugs.fetch_bugs_by_additional_bugs(additional_bugs_config, load_start_check_time(chat_name))
+      @additional_bugs_to_send = @additional_bugs.fetch_bugs_by_additional_bugs(additional_bugs_config,
+                                                                                load_start_check_time(chat_name))
       @logger.info("List of additional bugs: #{@additional_bugs_to_send}")
       @additional_bugs_to_send
     end
