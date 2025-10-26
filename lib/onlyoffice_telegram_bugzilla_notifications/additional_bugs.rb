@@ -35,9 +35,10 @@ module OnlyofficeTelegramBugzillaNotifications
     end
 
     # Get bugs
+    # @param filters [Hash] The filters to apply to the bugs
     # @return [Array<Hash>] The list of bugs
     def get_bugs_by_filters(filters)
-      @bugzilla.get_bugs_result(filters)
+      @bugzilla.get_bugs_by_filter(filters)
     end
 
     private
@@ -52,7 +53,7 @@ module OnlyofficeTelegramBugzillaNotifications
       filters = filter_config['filters']
       filters['last_change_time'] = start_check_time
       filters_hash = convert_filters_to_hash(filters)
-      @bugs = @bugzilla.get_bugs_by_filter(filters_hash)
+      @bugs = get_bugs_by_filters(filters_hash)
 
       @bugs.map { |bug| bug['id'] }.uniq.select do |bug_id|
         bug_history = @bugzilla.get_bug_history(bug_id)
