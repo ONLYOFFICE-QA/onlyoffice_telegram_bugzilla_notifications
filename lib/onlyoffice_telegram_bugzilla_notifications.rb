@@ -38,9 +38,9 @@ module OnlyofficeTelegramBugzillaNotifications
     # @param chat_name [String] name of the chat configuration
     # @return [Array<Integer>] The list of bug IDs
     def fetch_additional_bugs_to_send(additional_bugs_config, chat_name)
-      return [] unless additional_bugs_config
+      return [] unless additional_bugs_config && additional_bugs_config['filters']
 
-      @additional_bugs_to_send = @additional_bugs.fetch_additional_bugs(additional_bugs_config,
+      @additional_bugs_to_send = @additional_bugs.fetch_additional_bugs(additional_bugs_config['filters'],
                                                                         load_start_check_time(chat_name))
       @logger.info("List of additional bugs: #{@additional_bugs_to_send}")
       @additional_bugs_to_send
@@ -111,7 +111,9 @@ module OnlyofficeTelegramBugzillaNotifications
       @logger.info("Processing #{chat_bugs_to_send.size} bugs for chat #{chat_config['channel_id']}")
       form_messages_for_chat(chat_config, fetch_bugs_data(chat_bugs_to_send))
       send_messages(chat_config)
-      update_start_check_time(chat_name, @additional_bugs.last_check_time_from_bugs) unless additional_bugs.empty?
+      return if additional_bugs.empty? || @additional_bugs.last_checked_time.nil?
+
+      update_start_check_time(chat_name, @additional_bugs.last_checked_time)
     end
 
     # Retrieves chat configurations, excluding the common configuration.

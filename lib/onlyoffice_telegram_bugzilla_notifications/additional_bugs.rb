@@ -7,24 +7,44 @@ module OnlyofficeTelegramBugzillaNotifications
     # @param bugzilla BugzillaHelper instance
     def initialize(bugzilla)
       @bugzilla = bugzilla
+      @last_checked_bug_id = nil
+      @last_checked_time = nil
+    end
+
+    # Get the last checked bug id
+    # @return [Integer] The last checked bug id
+    def last_checked_bug_id
+      @last_checked_bug_id
+    end
+
+    # Get the last checked time
+    # @return [String] The last checked time
+    def last_checked_time
+      @last_checked_time
     end
 
     # Fetch bugs by additional bugs
     # @param filters [Hash] The filters to apply to the bugs
     # @param start_check_time [String] The time to start checking for bugs
     # @return [Array<Integer>] The list of bug IDs
-    def fetch_additional_bugs(filters, start_check_time)
+    def fetch_additional_bugs(filters_list, start_check_time)
       bugs_to_send = []
-      filters.each do |filter_config|
-        bugs_to_send.concat(process_filter_config(filter_config, start_check_time))
+      filters_list.each do |filter|
+        bugs_to_send.concat(process_filter_config(filter, start_check_time))
       end
+      last_check_time_from_bugs
       bugs_to_send
     end
 
     # Get the latest check time from the bugs
-    # @return [String] The latest check time
+    # @return [Hash] Hash with bug_id and last_change_time of the latest bug
     def last_check_time_from_bugs
-      @bugs.map { |bug| bug['last_change_time'] }.max
+      return nil if @bugs.nil? || @bugs.empty?
+
+      latest_bug = @bugs.max_by { |bug| bug['last_change_time'] }
+      @last_checked_bug_id = latest_bug['id']
+      @last_checked_time = latest_bug['last_change_time']
+      { bug_id: @last_checked_bug_id, last_change_time: @last_checked_time }
     end
 
     # Get bug history
@@ -38,40 +58,39 @@ module OnlyofficeTelegramBugzillaNotifications
     # @param filters [Hash] The filters to apply to the bugs
     # @return [Array<Hash>] The list of bugs
     def get_bugs_by_filters(filters)
-      @bugzilla.get_bugs_by_filter(filters)
+      @bugs = @bugzilla.get_bugs_by_filter(filters)
+      @bugs
     end
 
     private
 
     # Process single filter configuration
-    # @param filter_config [Hash] The filter configuration to process
+    # @param filters [Hash] The filters to process
     # @param start_check_time [String] The time to start checking for bugs
     # @return [Array<Integer>] The list of bug IDs matching the filter
-    def process_filter_config(filter_config, start_check_time)
-      return [] unless filter_config.is_a?(Hash) && filter_config['filters']
-
-      filters = filter_config['filters']
+    def process_filter_config(filters, start_check_time)
+      return [] unless filters.is_a?(Hash)
       filters['last_change_time'] = start_check_time
       filters_hash = convert_filters_to_hash(filters)
-      @bugs = get_bugs_by_filters(filters_hash)
+      get_bugs_by_filters(filters_hash)
 
       @bugs.map { |bug| bug['id'] }.uniq.select do |bug_id|
+        next false if bug_id == @last_checked_bug_id && start_check_time == @last_checked_time
+
         bug_history = @bugzilla.get_bug_history(bug_id)
-        bug_matches_history_filters?(bug_history, filters, start_check_time)
+        bug_matches_history_filters?(bug_history, filters)
       end
     end
 
     # Check if bug history matches the provided filters
     # @param bug_history [Array<Hash>] The bug history to check
     # @param filters [Hash] The filters to apply
-    # @param start_check_time [String] The time to start checking for bugs
     # @return [Boolean] True if bug matches filters
-    def bug_matches_history_filters?(bug_history, filters, start_check_time)
+    def bug_matches_history_filters?(bug_history, filters)
       # Get filters that should be checked in history (excluding technical fields)
       history_filters = filters.except('last_change_time')
-
       bug_history.any? do |history|
-        next unless history['when'] > start_check_time
+        next unless history['when'] > filters['last_change_time']
 
         history['changes'].any? do |change|
           match_change_with_filters?(change, history_filters)
