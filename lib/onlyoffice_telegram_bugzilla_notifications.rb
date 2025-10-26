@@ -34,14 +34,16 @@ module OnlyofficeTelegramBugzillaNotifications
     end
 
     # Fetch additional bugs to send
-    # @param additional_bugs_config [Hash] The configuration hash for the additional bugs
+    # @param additional_bugs_config [Array] The configuration array for the additional bugs
     # @param chat_name [String] name of the chat configuration
     # @return [Array<Integer>] The list of bug IDs
     def fetch_additional_bugs_to_send(additional_bugs_config, chat_name)
-      return [] unless additional_bugs_config && additional_bugs_config['filters']
+      return [] unless additional_bugs_config&.is_a?(Array)
 
-      @additional_bugs_to_send = @additional_bugs.fetch_additional_bugs(additional_bugs_config['filters'],
-                                                                        load_start_check_time(chat_name))
+      filters = additional_bugs_config.filter_map { |config| config['filters'] }
+      return [] if filters.empty?
+
+      @additional_bugs_to_send = @additional_bugs.fetch_additional_bugs(filters, load_start_check_time(chat_name))
       @logger.info("List of additional bugs: #{@additional_bugs_to_send}")
       @additional_bugs_to_send
     end
