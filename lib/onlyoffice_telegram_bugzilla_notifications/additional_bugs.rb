@@ -70,12 +70,13 @@ module OnlyofficeTelegramBugzillaNotifications
     # @return [Array<Integer>] The list of bug IDs matching the filter
     def process_filter_config(filters, start_check_time)
       return [] unless filters.is_a?(Hash)
+
       filters['last_change_time'] = start_check_time
       filters_hash = convert_filters_to_hash(filters)
       get_bugs_by_filters(filters_hash)
 
       @bugs.map { |bug| bug['id'] }.uniq.select do |bug_id|
-        next false if bug_id == @last_checked_bug_id && start_check_time == @last_checked_time
+        next if bug_id == @last_checked_bug_id && start_check_time == @last_checked_time
 
         bug_history = @bugzilla.get_bug_history(bug_id)
         bug_matches_history_filters?(bug_history, filters)

@@ -38,7 +38,7 @@ module OnlyofficeTelegramBugzillaNotifications
     # @param chat_name [String] name of the chat configuration
     # @return [Array<Integer>] The list of bug IDs
     def fetch_additional_bugs_to_send(additional_bugs_config, chat_name)
-      return [] unless additional_bugs_config&.is_a?(Array)
+      return [] unless additional_bugs_config.is_a?(Array)
 
       filters = additional_bugs_config.filter_map { |config| config['filters'] }
       return [] if filters.empty?
