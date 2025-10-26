@@ -13,15 +13,11 @@ module OnlyofficeTelegramBugzillaNotifications
 
     # Get the last checked bug id
     # @return [Integer] The last checked bug id
-    def last_checked_bug_id
-      @last_checked_bug_id
-    end
+    attr_reader :last_checked_bug_id
 
     # Get the last checked time
     # @return [String] The last checked time
-    def last_checked_time
-      @last_checked_time
-    end
+    attr_reader :last_checked_time
 
     # Fetch bugs by additional bugs
     # @param filters [Hash] The filters to apply to the bugs
