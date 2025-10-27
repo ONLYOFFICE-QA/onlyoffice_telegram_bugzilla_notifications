@@ -71,11 +71,11 @@ module OnlyofficeTelegramBugzillaNotifications
       filters_hash = convert_filters_to_hash(filters)
       get_bugs_by_filters(filters_hash)
 
-      @bugs.map { |bug| bug['id'] }.uniq.select do |bug_id|
-        next if bug_id == @last_checked_bug_id && start_check_time == @last_checked_time
+      @bugs.uniq { |bug| bug['id'] }.filter_map do |bug|
+        next if bug['id'] == @last_checked_bug_id && bug['last_change_time'] == @last_checked_time
 
-        bug_history = @bugzilla.get_bug_history(bug_id)
-        bug_matches_history_filters?(bug_history, filters)
+        bug_history = @bugzilla.get_bug_history(bug['id'])
+        bug['id'] if bug_matches_history_filters?(bug_history, filters)
       end
     end
 
