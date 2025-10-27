@@ -6,4 +6,4 @@ services:
     volumes:
       - ./last_send_bug.info:/root/onlyoffice_telegram_bugzilla_notifications/last_send_bug.info
       - ./config.yml:/root/onlyoffice_telegram_bugzilla_notifications/config.yml
-      - ./start_check_time.yml:/root/onlyoffice_telegram_bugzilla_notifications/start_check_time.yml
+      - ./start_check_time.yml:/root/onlyoffice_telegram_bugzilla_notifications/start_check_times.yml
