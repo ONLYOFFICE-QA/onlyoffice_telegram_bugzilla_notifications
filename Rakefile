@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'bundler/setup'
 require_relative 'lib/onlyoffice_telegram_bugzilla_notifications'
 
 desc 'Task for parse all files in directory'
