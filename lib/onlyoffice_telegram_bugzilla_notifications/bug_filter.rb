@@ -14,13 +14,13 @@ module OnlyofficeTelegramBugzillaNotifications
     # Check all filters
     # @return [Boolean] Result of applying all filters
     def filtered_all?
-      by_product
+      by_product?
     end
 
     # Filter bugs by product
     # @return [Boolean] True if the bug's product matches the configured products,
     #   or if the product filter is not set, or if the bug's product is not set
-    def by_product
+    def by_product?
       @config['products']&.include?(@bug_data['product']) || @config['products'].nil? || @bug_data['product'].nil?
     end
   end

@@ -8,6 +8,7 @@ module OnlyofficeTelegramBugzillaNotifications
     # @param bugzilla_url [String] The base URL of the Bugzilla instance, used to create a link to the bug.
     def initialize(bug_data, bugzilla_url)
       @string = "Bug #{bug_data['id']}. #{bug_data['summary']}\n" \
+                "Status: #{bug_data['status']}\n" \
                 "Reported by: #{bug_data['creator_detail']['real_name']}\n" \
                 "Assigned to: #{bug_data['assigned_to_detail']['real_name']}\n" \
                 "Severity: #{bug_data['severity']}\n" \

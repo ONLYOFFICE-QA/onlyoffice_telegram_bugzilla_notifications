@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 ruby '>= 3.4.0'
 
 gem 'onlyoffice_bugzilla_helper'
+gem 'rake'
 gem 'rspec'
 gem 'telegram-bot-ruby'
 

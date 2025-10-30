@@ -14,7 +14,7 @@ describe OnlyofficeTelegramBugzillaNotifications::BugFilter do
     let(:config) { { 'products' => ['TestProduct'] } }
 
     it 'returns true' do
-      expect(filter.by_product).to be(true)
+      expect(filter.by_product?).to be(true)
     end
   end
 
@@ -23,7 +23,7 @@ describe OnlyofficeTelegramBugzillaNotifications::BugFilter do
     let(:config) { { 'products' => ['TestProduct'] } }
 
     it 'returns false' do
-      expect(filter.by_product).to be(false)
+      expect(filter.by_product?).to be(false)
     end
   end
 
@@ -32,7 +32,7 @@ describe OnlyofficeTelegramBugzillaNotifications::BugFilter do
     let(:config) { {} }
 
     it 'returns true' do
-      expect(filter.by_product).to be(true)
+      expect(filter.by_product?).to be(true)
     end
   end
 
@@ -41,7 +41,7 @@ describe OnlyofficeTelegramBugzillaNotifications::BugFilter do
     let(:config) { { 'products' => ['TestProduct'] } }
 
     it 'returns true' do
-      expect(filter.by_product).to be(true)
+      expect(filter.by_product?).to be(true)
     end
   end
 end
