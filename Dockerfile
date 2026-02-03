@@ -1,4 +1,4 @@
-FROM ruby:3.4.2-alpine
+FROM ruby:3.4.7-alpine
 
 LABEL maintainer="Pavel.Lobashov <shockwavenn@gmail.com>"
 
